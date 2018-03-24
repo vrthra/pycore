@@ -1,7 +1,7 @@
 def parse_int(s):
     rtr, sign=0, 1
     s=s.strip()
-    if s[0] in '+-':
+    if s[0].in_('+-'):
         sc, s=s[0], s[1:]
         if sc=='-':
             sign=-1
@@ -14,14 +14,14 @@ def parse_int(s):
 
 def is_decimal(s, i): return s[i] == '.'
 def ascii2int(s, i): return int(s[i])
-def is_e_or_E(mystr, i_mystr): return mystr[i_mystr] in ['e', 'E']
-def consume_python2_long_literal_lL(mystr, i_mystr): return mystr[i_mystr] in ['l', 'L']
+def is_e_or_E(mystr, i_mystr): return mystr[i_mystr].in_('eE')
+def consume_python2_long_literal_lL(mystr, i_mystr): return mystr[i_mystr].in_('lL')
 def consume_single_underscore_before_digit_36_and_above(s, i):
     if not eof(s, i+1) and s[i] == '_' and is_valid_digit(s, i+1):
         return i + 1
     else:
         return i
-def is_valid_digit(s, i): return s[i] in '0123456789'
+def is_valid_digit(s, i): return s[i].in_('0123456789')
 def apply_power_of_ten_scaling(value, expon):
     scale = power_of_ten_scaling_factor(abs(expon))
     return value / scale if expon < 0 else value * scale
@@ -35,7 +35,7 @@ def parse_float(mystr):
     valid = False
     decimal_expon = 0
     expon = 0
-    starts_with_sign = 1 if mystr[0] in ['+', '-'] else 0
+    starts_with_sign = 1 if mystr[0].in_('+-') else 0
     sign = 1 if not starts_with_sign or starts_with_sign and mystr[0] == '+' else -1
 
     # If we had started with a sign, increment the pointer by one.
